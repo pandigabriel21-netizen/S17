@@ -1,5 +1,5 @@
 Réponses ouvertes - Atelier S17 (structures de données objet)
-Prénom NOM :
+Prénom NOM :pandi gabriel amani
 
 ================================================================
 Exercice 1 - Diagnostic du set
@@ -10,7 +10,12 @@ Exercice 1 - Diagnostic du set
   un seul et même livre ?
 - Quelles méthodes de Livre sont en jeu ? Bug ou décision de conception ?
 
-[votre réponse ici]
+  4 livres ont été ajoutés au total (les 3 du catalogue + la réédition)
+  L'ensemble n'en garde que 3. La réédition ("1984 (édition collector)") n'a pas été ajoutée au set (elle a "disparu"), car le set considère qu'elle y est déjà.
+
+  Parce que l'identité de l'objet est définie uniquement par son ISBN, qui est le même pour les deux livre
+  
+  Les méthodes en jeu sont __eq__ et __hash__. C'est une décision de conception explicite héritée des soirées précédentes, ce n'est pas un bug.
 
 
 ================================================================
@@ -19,7 +24,9 @@ Exercice 3 - reverse vs négation
 - Pourquoi reverse=True ne convient-il pas ici ?
 - Comment la négation du critère « année » résout-elle le problème ?
 
-[votre réponse ici]
+  Parce que `reverse=True` s'appliquerait à l'ensemble de la clé de tri (le tuple), ce qui inverserait aussi l'ordre alphabétique des auteurs (de Z à A).
+
+  En mettant un signe moins devant l'année (`-l.annee`), on inverse uniquement l'ordre chronologique (du plus grand au plus petit chiffre) tout en gardant le tri croissant normal pour l'auteur.
 
 
 ================================================================
@@ -30,4 +37,8 @@ Exercice 5 - Dédoublonnage
 - Quelles méthodes de Livre rendent cela possible ?
 - Que se passerait-il si Livre ne les définissait pas ?
 
-[votre réponse ici]
+  Parce que l'égalité métier a été définie sur l'ISBN. Les titres ne sont pas comparés.
+
+  Ce sont les méthodes `__eq__` (pour tester l'égalité de l'ISBN) et `__hash__` (pour utiliser les livres dans un set ou comme clé de dictionnaire).
+
+  Python utiliserait le comportement par défaut : la comparaison par identité mémoire (les adresses mémoires des objets). Les deux livres seraient alors considérés comme distincts et le dédoublonnage échouerait
